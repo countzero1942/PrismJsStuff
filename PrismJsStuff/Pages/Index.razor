@@ -1,0 +1,50 @@
+﻿@page "/"
+@using System.Text.Json;
+@using PrismJsStuff.Data;
+@inject IJSRuntime JS;
+@inject StringService SS;
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<div class="mb-3">
+	<button type="button" class="btn btn-primary" @onclick="SetJson1">
+		Set Json 1
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="SetJson2">
+		Set Json 2
+	</button>
+</div>
+
+@if(exampleJson.Value != null){
+	<pre class="language-json"><code class="language-json">@exampleJson</code></pre>
+}
+
+@code {
+	private MarkupString exampleJson;
+
+	public async Task SetJson1()
+	{
+		exampleJson = await PrettifyJson(SS.Json1);
+	}
+
+	public async Task SetJson2()
+	{
+		exampleJson = await PrettifyJson(SS.Json2);
+	}
+
+	private async Task<MarkupString> PrettifyJson(string json)
+	{
+		// Cheaty way to format json
+		using var jDoc = JsonDocument.Parse(json);
+		var prettyJson = JsonSerializer.Serialize(jDoc,
+			new JsonSerializerOptions
+				{
+					WriteIndented = true
+				});
+
+
+		return new MarkupString(await JS.InvokeAsync<string>("highlight", prettyJson, "json"));
+	}
+}
