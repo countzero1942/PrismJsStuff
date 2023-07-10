@@ -35,4 +35,7 @@ namespace PrismJsStuff.Data
 
 	}
 
+
+	public record Person(string Name, int Age);
+
 }

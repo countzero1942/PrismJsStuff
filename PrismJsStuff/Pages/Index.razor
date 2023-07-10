@@ -21,6 +21,30 @@
 	<pre class="language-json"><code class="language-json">@exampleJson</code></pre>
 }
 
+<div class="mb-3">
+	<button type="button" class="btn btn-primary" @onclick="LogString">
+		Log String
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="LogNumber">
+		Log Number
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="LogPerson">
+		Log Person
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="LogPersonB">
+		Log Person B
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="LogPersonC">
+		Log Person C
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="LogPersonD">
+		Log Person D
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="LogObject">
+		Log Object
+	</button>
+</div>
+
 @code {
 	private MarkupString exampleJson;
 
@@ -32,6 +56,49 @@
 	public async Task SetJson2()
 	{
 		exampleJson = await PrettifyJson(SS.Json2);
+	}
+
+	public async Task LogString()
+	{
+		await JS.InvokeVoidAsync("writeLog", "A string.");
+	}
+
+	public async Task LogNumber()
+	{
+		await JS.InvokeVoidAsync("writeLog", 23);		
+	}
+
+	public async Task LogPerson()
+	{
+		var person = new Person( Name: "Geddy", Age: 70 );
+		await JS.InvokeVoidAsync("writeLog", new { Name = "Geddy", Age = 70});
+	}
+
+	public async Task LogPersonB()
+	{
+		var person = new Person(Name: "Harry", Age: 44);
+		await JS.InvokeVoidAsync("writePersonB", new { Name = "Harry", Age = 44 });
+	}
+
+	public async Task LogPersonC()
+	{
+		var person = new Person(Name: "Older Brother Harry", Age: 45);
+		await JS.InvokeVoidAsync("writePersonC", person.Name, person.Age);
+	}
+
+	public async Task LogPersonD()
+	{
+		await JS.InvokeVoidAsync("writeLog", "Try in title case:");
+		await JS.InvokeVoidAsync("writePersonD", new { Name = "Chad", Age = 30, DoCount = 600 });
+		await JS.InvokeVoidAsync("writeLog", "Try in camel case:");
+		await JS.InvokeVoidAsync("writePersonD", new { name = "Chad", age = 30, doCount = 600 });
+
+	}
+
+
+	public async Task LogObject()
+	{
+		await JS.InvokeVoidAsync("writeObject");
 	}
 
 	private async Task<MarkupString> PrettifyJson(string json)
