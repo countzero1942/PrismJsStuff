@@ -8,7 +8,6 @@
 
 	<ItemGroup>
 		<Folder Include="NpmJs\src\" />
-		<Folder Include="wwwroot\js\" />
 	</ItemGroup>
 
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">

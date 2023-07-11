@@ -36,6 +36,6 @@ namespace PrismJsStuff.Data
 	}
 
 
-	public record Person(string Name, int Age);
+	public record Person(string name, int age, int xp);
 
 }

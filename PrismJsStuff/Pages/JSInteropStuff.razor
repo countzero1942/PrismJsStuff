@@ -1,0 +1,59 @@
+﻿@page "/js-interop-stuff"
+@inject IJSRuntime JS;
+
+<PageTitle>JSInterop Stuff</PageTitle>
+
+<h1>JSInterop Stuff</h1>
+
+<div class="mb-3">
+	<button type="button" class="btn btn-primary" @onclick="LogString">
+		Log String
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="LogNumber">
+		Log Number
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="LogJSPerson">
+		Log JS Person
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="LogCSPerson">
+		Log CS Record Person
+	</button>
+	<button type="button" class="btn btn-secondary" @onclick="LogTuplePerson">
+		Log CS Tuple Person
+	</button>
+</div>
+
+@code {
+	public record Person(string name, int age, int xp);
+
+
+	public async Task LogString()
+	{
+		await JS.InvokeVoidAsync("write.obj", "A string.");
+	}
+
+	public async Task LogNumber()
+	{
+		await JS.InvokeVoidAsync("write.obj", 23);
+	}
+
+	public async Task LogJSPerson()
+	{
+		await JS.InvokeVoidAsync("write.jsPerson");
+	}
+
+	public async Task LogCSPerson()
+	{
+		var person = new Person(name: "Mia", age: 29, xp: 5000);
+		await JS.InvokeVoidAsync("write.person", person);
+		await JS.InvokeVoidAsync("write.obj", person);
+	}
+
+	public async Task LogTuplePerson()
+	{
+		var person = new { name = "Harry", age = 44, xp = 50000 };
+		await JS.InvokeVoidAsync("write.person", person);
+		await JS.InvokeVoidAsync("write.obj", person);
+	}
+
+}

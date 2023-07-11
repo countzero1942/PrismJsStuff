@@ -12,31 +12,17 @@ window.highlight = (code, language) => {
 	}
 }
 
-window.writeLog = (obj) => {
-	console.log(`writeLog: ${obj}`);
-}
-
-window.person = { Name: "Alex", Age: 70 };
-
-
-window.writePersonB = (person) => {
-	
-	console.log(`writePersonB: Name = ${person.name}, Age = ${person.age}`);
-}
-
-
-window.writePersonC = (name, age) => {
-	
-	console.log(`writePersonC: Name = ${name}, Age = ${age}`);
-}
-
-window.writePersonD = (person) => {
-	console.log(person);
-	console.log(`writePersonD: Name = ${person.name}, Age = ${person.age}, Count = ${person.doCount}`);
-}
+window.write = {
+	obj: (obj) => 
+		console.log(obj),
+	person: (person) => 
+		console.log(`Name = ${person.name}, Age = ${person.age}, XP = ${person.xp}`),
+	jsPerson: () => {
+		var person = { name: "Ted", age: 30, xp: 500};
+		window.write.person(person);
+		window.write.obj(person);
+	}	
+};
 
 
-
-window.writeObject = () => {
-	console.log(window.person);
-}
+ 
