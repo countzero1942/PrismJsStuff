@@ -14,30 +14,30 @@ module.exports = {
 		})
 	],
 	mode: 'production',
-	resolve: {
-		extensions: ['.js']
+	performance: {
+		hints: false
 	},
 	module: {
-	rules: [
-		{
-			test: /\.(?:js|mjs|cjs)$/,
-			exclude: /node_modules/,
-			use: {
-				loader: 'babel-loader',
-				options: {
-					presets: [
-						['@babel/preset-env', { targets: "defaults" }]
-					]
+		rules: [
+			{
+				test: /\.(?:js|mjs|cjs)$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: [
+							['@babel/preset-env', { targets: "defaults" }]
+						]
+					}
 				}
+			},
+			{
+			test: /\.css$/,
+			use: [
+				{ loader: MiniCssExtractPlugin.loader },
+				{ loader: 'css-loader' }
+			],
 			}
-		},
-		{
-		test: /\.css$/,
-		use: [
-			{ loader: MiniCssExtractPlugin.loader },
-			{ loader: 'css-loader' }
-		],
-		}
-	]
+		]
 	}
 };

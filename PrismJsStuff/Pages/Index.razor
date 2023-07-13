@@ -17,6 +17,16 @@
 	</button>
 </div>
 
+<div class="mb-3">
+	<button type="button" class="btn btn-primary" @onclick="SetJs1">
+		Set Javascript 1
+	</button>
+	<button type="button" class="btn btn-primary" @onclick="SetJs2">
+		Set Javascript 2
+	</button>
+</div>
+
+
 @if(exampleJson.Value != null){
 	<pre class="language-json"><code class="language-json">@exampleJson</code></pre>
 }
@@ -27,15 +37,48 @@
 
 	public async Task SetJson1()
 	{
-		exampleJson = await PrettifyJson(SS.Json1);
+		//exampleJson = await PrettifyJson(SS.Json1);
+		string code = await TranslateCode(SS.Json1, "json");
+		this.exampleJson = code.ToMarkupString();
 	}
 
 	public async Task SetJson2()
 	{
-		exampleJson = await PrettifyJson(SS.Json2);
+		//exampleJson = await PrettifyJson(SS.Json2);
+		string code = await TranslateCode(SS.Json2, "json");
+		this.exampleJson = code.ToMarkupString();
+	}
+
+	public async Task SetJs1()
+	{
+		//exampleJson = await PrettifyJson(SS.Json2);
+		string code = await JS.InvokeAsync<string>("prettify.js", SS.Js1);
+		this.exampleJson = code.ToMarkupString();
+	}
+	public async Task SetJs2()
+	{
+		//exampleJson = await PrettifyJson(SS.Json2);
+		string code = await JS.InvokeAsync<string>("prettify.js", SS.Js2);
+		this.exampleJson = code.ToMarkupString();
 	}
 
 
+	private async Task<string> Prettify(string code)
+	{
+		return await JS.InvokeAsync<string>("prettify.json", code);
+	}
+
+	private async Task<string> Highlight(string code, string language)
+	{
+		return await JS.InvokeAsync<string>("highlight", code, language);
+	}
+
+	private async Task<string> TranslateCode(string code, string language)
+	{
+		code = await Prettify(code);
+		code = await Highlight(code, language);
+		return code;
+	}
 
 	private async Task<MarkupString> PrettifyJson(string json)
 	{
