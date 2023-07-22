@@ -2,7 +2,7 @@
 @using System.Text.Json;
 @using PrismJsStuff.Data;
 @inject IJSRuntime JS;
-@inject StringService SS;
+@inject TextService text;
 
 <PageTitle>Index</PageTitle>
 
@@ -37,28 +37,34 @@
 
 	public async Task SetJson1()
 	{
-		//exampleJson = await PrettifyJson(SS.Json1);
-		string code = await TranslateCode(SS.Json1, "json");
+		const string language = "json";
+		string code = await JS.InvokeAsync<string>("prettify.json", text.Json1);
+		code = await JS.InvokeAsync<string>("highlight", code, language);
 		this.exampleJson = code.ToMarkupString();
 	}
 
 	public async Task SetJson2()
 	{
-		//exampleJson = await PrettifyJson(SS.Json2);
-		string code = await TranslateCode(SS.Json2, "json");
+		const string language = "json";
+		string code = await JS.InvokeAsync<string>("prettify.json", text.Json2);
+		code = await JS.InvokeAsync<string>("highlight", code, language);
 		this.exampleJson = code.ToMarkupString();
 	}
 
 	public async Task SetJs1()
 	{
 		//exampleJson = await PrettifyJson(SS.Json2);
-		string code = await JS.InvokeAsync<string>("prettify.js", SS.Js1);
+		const string language = "js";
+		string code = await JS.InvokeAsync<string>("prettify.js", text.Js1);
+		code = await JS.InvokeAsync<string>("highlight", code, language);
 		this.exampleJson = code.ToMarkupString();
 	}
 	public async Task SetJs2()
 	{
 		//exampleJson = await PrettifyJson(SS.Json2);
-		string code = await JS.InvokeAsync<string>("prettify.js", SS.Js2);
+		const string language = "js";
+		string code = await JS.InvokeAsync<string>("prettify.js", text.Js2);
+		code = await JS.InvokeAsync<string>("highlight", code, language);
 		this.exampleJson = code.ToMarkupString();
 	}
 

@@ -12,7 +12,7 @@ namespace PrismJsStuff
 			builder.Services.AddRazorPages();
 			builder.Services.AddServerSideBlazor();
 			builder.Services.AddSingleton<WeatherForecastService>();
-			builder.Services.AddSingleton<StringService>();
+			builder.Services.AddSingleton<TextService>();
 
 			var app = builder.Build();
 
